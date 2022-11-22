@@ -1,3 +1,4 @@
+import { IDLE_FETCHER } from '@remix-run/router'
 import React, { useContext, useEffect, useReducer } from 'react'
 
 import {
@@ -6,17 +7,23 @@ import {
   REMOVE_STORY,
   HANDLE_PAGE,
   HANDLE_SEARCH,
+  HANDLE_TAG,
+  HANDLE_SORT,
+  HANDLE_TIME,
 } from './actions'
 import reducer from './reducer'
 
-const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?'
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/'
 
 const initialState = {
   loading: true,
   hits: [],
-  query: 'react',
+  query: '',
   page: 0,
-  nbPages: 0
+  nbPages: 0,
+  tag : 'story',
+  search_by : 'search',
+  date : 'all_time'
 }
 
 const AppContext = React.createContext()
@@ -47,11 +54,38 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_PAGE, payload: value })
   }
 
-  useEffect(() => {
-    fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`)
-  }, [state.query, state.page])
+  const handleTag = tag => {
+    dispatch({type : HANDLE_TAG, payload : tag})
+  }
 
-  return <AppContext.Provider value={{ ...state, removeStory, handleSearch, handlePage }}>{children}</AppContext.Provider>
+  const handleSort = sort_by => {
+    dispatch({type : HANDLE_SORT, payload : sort_by})
+  }
+
+  const handleTime = time => {
+    dispatch({type : HANDLE_TIME, payload : time})
+  }
+
+  useEffect(() => {
+    var url = API_ENDPOINT+state.search_by+'?'
+    url = url + 'query=' + state.query;
+    url = url + '&page=' + state.page;
+    if(state.tag !=='all' )
+      url = url + '&tags=' + state.tag;
+    if(state.date !== 'all_time'){
+      var seconds = new Date().getTime() / 1000;
+      if(state.date==='A'){   
+        seconds= seconds-24*60*60;
+      }
+      else{
+        seconds= seconds-7*24*60*60;
+      }
+      url=url+`&numericFilters=created_at_i>${seconds}`;
+    }
+    fetchStories(url)
+  }, [state.query, state.page, state.tag, state.search_by, state.date])
+
+  return <AppContext.Provider value={{ ...state, removeStory, handleSearch, handlePage, handleTag, handleSort, handleTime }}>{children}</AppContext.Provider>
 }
 // make sure use
 export const useGlobalContext = () => {

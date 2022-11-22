@@ -8,7 +8,7 @@ const Stories = () => {
   if (loading) return <div className="loading"></div>
 
   return <section className="stories">
-    {hits.map(story => {
+    {hits.map( story => {
       const { objectID, title, num_comments, points, url, author } = story
       return <article key={objectID} className="story">
         <h4 className="title">{title}</h4>

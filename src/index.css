@@ -60,7 +60,7 @@ Global Styles
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: var(--clr-grey-10);
+  background: var(--clr-grey-10) !important; 
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
@@ -143,7 +143,7 @@ Search
   width: 90vw;
   max-width: var(--max-width);
   margin: 0 auto;
-  margin-top: 5rem;
+  margin-top: 1rem;
   margin-bottom: 3rem;
 }
 .form-input {
@@ -234,7 +234,9 @@ Story
   margin-bottom: 5rem;
   display: grid;
   gap: 2rem;
+  margin-top: 2rem;
 }
+
 @media screen and (min-width: 992px) {
   .stories {
     display: grid;
@@ -246,6 +248,7 @@ Story
   background: var(--clr-white);
   border-radius: var(--radius);
   padding: 1rem 2rem;
+  border-radius: 10px;
 }
 
 .title {
@@ -271,4 +274,28 @@ Story
   cursor: pointer;
   text-transform: capitalize;
   font-size: 0.85rem;
+}
+.header {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  display: flex !important;
+  justify-content: center; 
+  align-items: center;
+}
+
+.nav-link a {
+    margin: 10px;
+    text-transform: uppercase;
+    color: inherit;
+    letter-spacing: 2px;
+}
+
+.select-custom {
+  width: 150px !important;
+  margin: 10px;  
 }

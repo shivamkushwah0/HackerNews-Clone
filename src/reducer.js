@@ -4,6 +4,9 @@ import {
   REMOVE_STORY,
   HANDLE_PAGE,
   HANDLE_SEARCH,
+  HANDLE_TAG,
+  HANDLE_SORT,
+  HANDLE_TIME,
 } from './actions'
 
 const reducer = (state, action) => {
@@ -23,6 +26,9 @@ const reducer = (state, action) => {
         return { ...state, page: nextPage }
       }
       break;
+    case HANDLE_TAG : return {...state, tag : action.payload}
+    case HANDLE_SORT : return {...state, search_by : action.payload}
+    case HANDLE_TIME : return {...state, date : action.payload}
     default: throw new Error(`no matching ${action.type} action type`)
   }
 }
